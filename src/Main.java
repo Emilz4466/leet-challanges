@@ -11,8 +11,9 @@ public class Main {
 
         // 2. AddTwoNumbers 16.09.2023
         AddTwoNumbers atn = new AddTwoNumbers();
-        AddTwoNumbers.ListNode ln = new AddTwoNumbers.ListNode(1, new AddTwoNumbers.ListNode(2, new AddTwoNumbers.ListNode(3)));
+        AddTwoNumbers.ListNode l1 = new AddTwoNumbers.ListNode(2, new AddTwoNumbers.ListNode(4, new AddTwoNumbers.ListNode(3)));
+        AddTwoNumbers.ListNode l2 = new AddTwoNumbers.ListNode(5, new AddTwoNumbers.ListNode(6, new AddTwoNumbers.ListNode(4)));
 
-        atn.addTwoNumbers(ln, ln);
+        AddTwoNumbers.ListNode res = atn.addTwoNumbers(l1, l2);
     }
 }

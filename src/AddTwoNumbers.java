@@ -27,35 +27,28 @@ public class AddTwoNumbers {
 
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
 
-        ListNode reverse1 = reverse(l1);
-        System.out.println(print(reverse1));
+        ListNode dummyHead = new ListNode(0);
+        ListNode tail = dummyHead;
+        int carry = 0;
 
-        return null;
-    }
-// TODO reverse działa, trzeba to sumować i wyciagnac sume dwoch i znowu zapisac do ListNode
-    ListNode reverse(ListNode node) {
-        ListNode prev = null;
-        ListNode current = node;
-        ListNode next = null;
+        while (l1 != null || l2 != null || carry != 0) {
+            int digit1 = (l1 != null) ? l1.val : 0;
+            int digit2 = (l2 != null) ? l2.val : 0;
 
-        while (current != null) {
-            next = current.next;
-            current.next = prev;
-            prev = current;
-            current = next;
-        }
-        node = prev;
-        return node;
-    }
+            int sum = digit1 + digit2 + carry;
+            int digit = sum % 10;
+            carry = sum / 10;
 
-    String print(ListNode node) {
-        String result = "";
+            ListNode newNode = new ListNode(digit);
+            tail.next = newNode;
+            tail = tail.next;
 
-        while(node != null) {
-            result += node.val;
-            node = node.next;
+            l1 = (l1 != null) ? l1.next : null;
+            l2 = (l2 != null) ? l2.next : null;
         }
 
+        ListNode result = dummyHead.next;
+        dummyHead.next = null;
         return result;
     }
 
