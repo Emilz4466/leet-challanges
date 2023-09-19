@@ -1,6 +1,7 @@
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.BiFunction;
 
 /*
 Given a string s which represents an expression, evaluate this expression and return its value.
@@ -31,25 +32,69 @@ The answer is guaranteed to fit in a 32-bit integer.
 
 public class BasicCalculatorII {
 
-    public List<Integer> basicCalc(String s) {
+    public LinkedList<Arithemtic> basicCalc(String s) {
         List<String> operators = new LinkedList<String>(Arrays.asList("+", "-", "*", "/"));
         String currNum = "";
-        List<Integer> nums = new LinkedList<>();
+        LinkedList<Integer> nums = new LinkedList<>();
+        String c;
+        LinkedList<Arithemtic> artithemtics = new LinkedList<>();
 
         for (int i = 0; i < s.length(); i++) {
-            String c = String.valueOf(s.charAt(i));
+            c = String.valueOf(s.charAt(i));
 
-            if(operators.contains(c)) {
-                int x = Integer. valueOf(currNum);
+            if (operators.contains(c)) {
+                int x = Integer.parseInt(currNum);
                 nums.add(x);
                 currNum = "";
-            } else {
+                artithemtics.add(new Arithemtic(c));
+
+            } else if (!c.equals(" ")) {
                 currNum += s.charAt(i);
+                artithemtics.add(new Arithemtic(Integer.parseInt(currNum)));
             }
         }
-        nums.add(Integer. valueOf(currNum));
-        return nums;
+        //TODO pomysł jest dobry ale nie mozna modyfikować listy jak jest w loopie
+        LinkedList<Arithemtic> results = new LinkedList<>();
+        for(Arithemtic arithemtic : artithemtics) {
+            if(operators.contains(arithemtic.oper)) {
+                switch(arithemtic.oper){
+                    case "*":
+                        results.add(new Arithemtic(artithemtics.get(artithemtics.indexOf(arithemtic) - 1).num * artithemtics.get(artithemtics.indexOf(arithemtic) + 1).num));
+                        artithemtics.remove(artithemtics.indexOf(arithemtic) + 1);
+                        break;
+                    case "/":
+                        results.add(new Arithemtic(artithemtics.get(artithemtics.indexOf(arithemtic) - 1).num / artithemtics.get(artithemtics.indexOf(arithemtic) + 1).num));
+                        artithemtics.remove(artithemtics.indexOf(arithemtic) + 1);
+                        break;
+                }
+            }
+        }
+
+        return results;
     }
+
+    public static class Arithemtic {
+        public int num = -1;
+        public String oper = "";
+
+        Arithemtic(int num, String oper) {
+            this.num = num;
+            this.oper = oper;
+        }
+
+        Arithemtic(int num) {
+            this.num = num;
+        }
+
+        Arithemtic(String oper) {
+            this.oper = oper;
+        }
+    }
+
+
+
+
+
 
     public String print(List<Integer> nums) {
         String result = "";
@@ -57,5 +102,28 @@ public class BasicCalculatorII {
             result += "  " + num;
         }
         return result;
+    }
+
+    public enum ArithmeticOperator implements BiFunction<Integer, Integer, Integer> {
+        PLUS("+", (a, b) -> a + b),
+        MINUS("-", (a, b) -> a - b),
+        MULTIPLY("*", (a, b) -> a * b),
+        DIVIDE("/", (a, b) -> a / b);
+
+        private final String symbol;
+        private final BiFunction<Integer, Integer, Integer> operation;
+
+        ArithmeticOperator(String symbol, BiFunction<Integer, Integer, Integer> operation) {
+            this.symbol = symbol;
+            this.operation = operation;
+        }
+
+        public Integer apply (Integer a, Integer b) {
+            return operation.apply(a, b);
+        }
+
+        public String toString() {
+            return symbol;
+        }
     }
 }

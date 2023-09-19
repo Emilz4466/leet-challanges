@@ -19,6 +19,6 @@ public class Main {
         // 227. Basic Calculator II 19
         BasicCalculatorII bcII = new BasicCalculatorII();
         System.out.println("Basic calc 2");
-        System.out.println(bcII.print(bcII.basicCalc("3+2*2")));
+        System.out.println(bcII.basicCalc("6/2*2*3").getFirst().num);
     }
 }
