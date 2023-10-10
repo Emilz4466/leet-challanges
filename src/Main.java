@@ -15,5 +15,12 @@ public class Main {
         AddTwoNumbers.ListNode l2 = new AddTwoNumbers.ListNode(5, new AddTwoNumbers.ListNode(6, new AddTwoNumbers.ListNode(4)));
 
         AddTwoNumbers.ListNode res = atn.addTwoNumbers(l1, l2);
+
+
+        // 70. Climbing stairs
+
+        ClimbingStairs climbingStairs = new ClimbingStairs();
+        int csres = climbingStairs.ways(45);
+        System.out.println(csres);
     }
 }
