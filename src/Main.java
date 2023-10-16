@@ -22,5 +22,7 @@ public class Main {
         ClimbingStairs climbingStairs = new ClimbingStairs();
         int csres = climbingStairs.ways(45);
         System.out.println(csres);
+
+        //test
     }
 }
